@@ -1,0 +1,121 @@
+Shopify Theme
+├── Layout        → Main HTML structure
+├── Templates     → Different page types
+├── Sections      → Reusable page sections
+├── Snippets      → Small reusable components
+├── Assets        → CSS, JS, Images, Fonts
+├── Config        → Theme settings
+├── Locales       → Multi-language support
+
+1. assets/
+This folder contains everything related to styling and frontend functionality.
+
+2. config/
+This stores Theme Customizer settings.
+
+3. layout/
+This is the most important folder.
+Contains:
+    theme.liquid
+    password.liquid
+    theme.liquid
+
+Think of it like:
+    App.js or index.html of React.
+
+Every page loads through:
+    theme.liquid
+
+It contains:
+    {{ content_for_layout }}
+Shopify replaces this with the current page.
+
+4. locales/
+Contains translations:
+    en, fr, de, es, ja, etc.
+
+Example:
+Instead of writing:
+    Add To Cart
+you write:
+    {{ 'products.product.add_to_cart' | t }}
+
+Then Shopify automatically shows:
+    English, French, German depending on language.
+
+5. templates/
+This tells Shopify
+"What kind of page is this?"
+
+Example:
+    product.json
+    collection.json
+    page.json
+    cart.json
+    blog.json
+
+Suppose customer opens:
+    example.com/products/shoes
+
+Shopify loads
+    product.json
+Inside
+    product.json
+you'll see something like:
+    {
+    "sections": {
+        "main": {
+        "type": "main-product"
+        }
+    }
+    }
+
+Meaning it loads:
+    sections/main-product.liquid
+
+Think of Templates like Page Router
+
+6. sections/
+This is where most development happens. Every page is built using Sections.
+
+Example:
+    Homepage
+    Announcement
+    Hero
+    Collection
+    Newsletter
+    Footer
+Each one is a separate file.
+
+DYNAMIC SECTIONS
+Every section has:
+    {% schema %}
+
+Example:
+    {
+        "name":"Hero",
+        "settings":[
+            {
+                "type":"text",
+                "id":"heading"
+            }
+        ]
+    }
+
+Merchant can edits Heading inside Theme Editor.
+
+7. snippets/
+Snippets are reusable components.
+
+Suppose 
+    Product Card 
+is used in
+    Homepage
+    Collection Page
+    Search Page
+Instead of writing code 3 times,
+
+create
+    card-product.liquid
+Then
+    {% render 'card-product' %}
