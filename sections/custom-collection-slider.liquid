@@ -1,0 +1,113 @@
+<section class="custom-collection-slider page-width">
+
+  <div class="collection-slider-header">
+    {% if section.settings.heading != blank %}
+      <h2>{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    {% if section.settings.subheading != blank %}
+      <p>{{ section.settings.subheading }}</p>
+    {% endif %}
+  </div>
+
+  <div class="slider-wrapper">
+
+    <button class="slider-btn prev" aria-label="Previous">
+      &#10094;
+    </button>
+
+    <div class="slider-track">
+
+      {% for block in section.blocks %}
+        {% assign collection = collections[block.settings.collection] %}
+
+        {% if collection %}
+          <div class="collection-card" {{ block.shopify_attributes }}>
+
+            <a href="{{ collection.url }}">
+
+              {% if collection.featured_image %}
+                {{
+                  collection.featured_image
+                  | image_url: width: 700
+                  | image_tag:
+                    loading: 'lazy',
+                    class: 'collection-image'
+                }}
+              {% elsif collection.products.first %}
+                {{
+                  collection.products.first.featured_image
+                  | image_url: width: 700
+                  | image_tag:
+                    loading: 'lazy',
+                    class: 'collection-image'
+                }}
+              {% endif %}
+
+              <div class="collection-content">
+                <h3>{{ collection.title }}</h3>
+
+                <span>
+                  {{ collection.products_count }}
+                  Product{% if collection.products_count != 1 %}s{% endif %}
+                </span>
+
+                <div class="shop-link">
+                  Shop Now →
+                </div>
+              </div>
+
+            </a>
+
+          </div>
+        {% endif %}
+
+      {% endfor %}
+
+    </div>
+
+    <button class="slider-btn next" aria-label="Next">
+      &#10095;
+    </button>
+
+  </div>
+
+</section>
+
+{% schema %}
+{
+  "name": "Custom Collection Slider",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop by Category"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Sub Heading",
+      "default": "Browse our most popular collections."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Choose Collection"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Collection Slider"
+    }
+  ]
+}
+{% endschema %}

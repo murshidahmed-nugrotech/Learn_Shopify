@@ -1,0 +1,117 @@
+<div class="fps-card">
+
+  <div class="fps-image-wrapper">
+
+    {% if product.compare_at_price > product.price %}
+      <span class="fps-sale-badge">
+        {{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price }}% OFF
+      </span>
+    {% endif %}
+
+    <a href="{{ product.url }}" class="fps-image-link">
+
+      {% if product.featured_image %}
+        {{
+          product.featured_image
+          | image_url: width: 600
+          | image_tag:
+          class: 'fps-image',
+          loading: 'lazy',
+          alt: product.title
+        }}
+      {% endif %}
+
+      {% if product.images.size > 1 %}
+        {{
+          product.images[1]
+          | image_url: width: 600
+          | image_tag:
+          class: 'fps-image fps-hover-image',
+          loading: 'lazy',
+          alt: product.title
+        }}
+      {% endif %}
+
+    </a>
+
+    <div class="fps-actions">
+
+      <button
+        class="fps-action add-cart"
+        data-variant="{{ product.selected_or_first_available_variant.id }}"
+        aria-label="Add to cart"
+      >
+        🛒
+      </button>
+
+      <button
+        class="fps-action wishlist"
+        aria-label="Wishlist"
+      >
+        ♡
+      </button>
+
+      <button
+        class="fps-action compare"
+        aria-label="Compare"
+      >
+        ⇄
+      </button>
+
+      <button
+        class="fps-action quick-view"
+        data-handle="{{ product.handle }}"
+        aria-label="Quick view"
+      >
+        👁
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="fps-content">
+
+    {% if product.collections.first %}
+      <div class="fps-category">
+        {{ product.collections.first.title }}
+      </div>
+    {% endif %}
+
+    <h3 class="fps-title">
+      <a href="{{ product.url }}">
+        {{ product.title }}
+      </a>
+    </h3>
+
+    <div class="fps-rating">
+
+      ★★★★★
+
+      <span>(5)</span>
+
+    </div>
+
+    <div class="fps-price">
+
+      <span class="current-price">
+
+        {{ product.price | money }}
+
+      </span>
+
+      {% if product.compare_at_price > product.price %}
+
+        <span class="old-price">
+
+          {{ product.compare_at_price | money }}
+
+        </span>
+
+      {% endif %}
+
+    </div>
+
+  </div>
+
+</div>

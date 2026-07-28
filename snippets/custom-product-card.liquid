@@ -1,0 +1,78 @@
+<div class="custom-product-card">
+
+  <a href="{{ product.url }}" class="product-image-wrapper">
+
+    {% if product.featured_image %}
+      {{
+        product.featured_image
+        | image_url: width: 800
+        | image_tag:
+          class: 'product-image',
+          loading: 'lazy',
+          alt: product.title
+      }}
+    {% endif %}
+
+    {% if product.images.size > 1 %}
+      {{
+        product.images[1]
+        | image_url: width: 800
+        | image_tag:
+          class: 'product-image product-hover-image',
+          loading: 'lazy',
+          alt: product.title
+      }}
+    {% endif %}
+
+    {% if product.compare_at_price > product.price %}
+      <span class="product-badge sale">
+        Sale
+      </span>
+    {% endif %}
+
+    {% unless product.available %}
+      <span class="product-badge soldout">
+        Sold Out
+      </span>
+    {% endunless %}
+
+  </a>
+
+  <div class="product-content">
+
+    {% if settings.show_vendor %}
+      <div class="product-vendor">
+        {{ product.vendor }}
+      </div>
+    {% endif %}
+
+    <h3 class="product-title">
+      <a href="{{ product.url }}">
+        {{ product.title }}
+      </a>
+    </h3>
+
+    <div class="product-price">
+
+      {% if product.compare_at_price > product.price %}
+        <span class="old-price">
+          {{ product.compare_at_price | money }}
+        </span>
+      {% endif %}
+
+      <span class="current-price">
+        {{ product.price | money }}
+      </span>
+
+    </div>
+
+    <button
+      class="button product-add-cart"
+      data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+    >
+      Add to Cart
+    </button>
+
+  </div>
+
+</div>

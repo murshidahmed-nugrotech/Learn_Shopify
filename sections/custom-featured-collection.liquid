@@ -1,0 +1,122 @@
+
+<section class="fc-section">
+
+  <div class="page-width">
+
+    {% if section.settings.heading != blank %}
+      <div class="fc-heading">
+        <h2>{{ section.settings.heading }}</h2>
+      </div>
+    {% endif %}
+
+    {% assign collection = collections[section.settings.collection] %}
+
+    {% if collection != blank %}
+
+      <div class="fc-grid">
+
+        {% for product in collection.products limit: section.settings.products %}
+
+          <div class="fc-card">
+
+            <a href="{{ product.url }}" class="fc-image">
+
+              {% if product.featured_image %}
+                {{
+                  product.featured_image
+                  | image_url: width: 500
+                  | image_tag:
+                  loading: 'lazy'
+                }}
+              {% endif %}
+
+            </a>
+
+            <div class="fc-content">
+
+              <h3>{{ product.title }}</h3>
+
+              <p>
+
+                {{ product.description | strip_html | truncate: 70 }}
+
+              </p>
+
+              <div class="fc-price">
+
+                {{ product.price | money }}
+
+              </div>
+
+              <form method="post" action="/cart/add">
+
+                <input
+                  type="hidden"
+                  name="id"
+                  value="{{ product.selected_or_first_available_variant.id }}"
+                >
+
+                <button type="submit">
+
+                  Add to Cart
+
+                </button>
+
+              </form>
+
+            </div>
+
+          </div>
+
+        {% endfor %}
+
+      </div>
+
+      <div class="fc-view-all">
+
+        <a href="{{ collection.url }}">
+
+          View All Products
+
+        </a>
+
+      </div>
+
+    {% endif %}
+
+  </div>
+
+</section>
+
+{% schema %}
+{
+  "name":"Custom Featured Collect",
+  "settings":[
+    {
+      "type":"text",
+      "id":"heading",
+      "label":"Heading",
+      "default":"Featured Collection"
+    },
+    {
+      "type":"collection",
+      "id":"collection",
+      "label":"Collection"
+    },
+    {
+      "type":"range",
+      "id":"products",
+      "label":"Products",
+      "min":4,
+      "max":12,
+      "step":1,
+      "default":4
+    }
+  ],
+  "presets":[
+    {
+      "name":"Custom Featured Collection"
+    }
+  ]
+}
+{% endschema %}
