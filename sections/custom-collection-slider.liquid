@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <section class="custom-collection-slider page-width">
   <div class="collection-slider-header">
     {% if section.settings.heading != blank %}
@@ -113,3 +114,120 @@
   ]
 }
 {% endschema %}
+=======
+<section class="custom-collection-slider page-width">
+  <div class="collection-slider-header">
+    {% if section.settings.heading != blank %}
+      <h2>{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    {% if section.settings.subheading != blank %}
+      <p>{{ section.settings.subheading }}</p>
+    {% endif %}
+  </div>
+
+  <div class="slider-wrapper">
+    <button class="slider-btn prev" aria-label="Previous">&#10094;</button>
+
+    <div class="slider-track">
+      {% for block in section.blocks %}
+        {% assign collection = block.settings.collection %}
+
+        <div class="collection-card" {{ block.shopify_attributes }}>
+          {% if collection %}
+            <a href="{{ collection.url }}">
+              <div class="collection-image-wrapper">
+                {% if collection.featured_image %}
+                  {{
+                    collection.featured_image
+                    | image_url: width: 900
+                    | image_tag: class: 'collection-image', loading: 'lazy'
+                  }}
+                {% else %}
+                  <img
+                    src="{{ 'before.png' | asset_url }}"
+                    alt="{{ collection.title }}"
+                    class="collection-image"
+                    height=""
+                    width=""
+                  >
+                {% endif %}
+              </div>
+
+              <div class="collection-content">
+                <h3>{{ collection.title }}</h3>
+
+                <span>
+                  {{ collection.products_count }}
+                  Product{% if collection.products_count != 1 %}s{% endif %}
+                </span>
+
+                <div class="shop-link">Shop Now →</div>
+              </div>
+            </a>
+
+          {% else %}
+            <div class="collection-image-wrapper">
+              <img
+                src="{{ 'before.png' | asset_url }}"
+                alt="Demo Collection"
+                class="collection-image"
+                height=""
+                width=""
+              >
+            </div>
+
+            <div class="collection-content">
+              <h3>Men's Fashion</h3>
+              <span>24 Products</span>
+
+              <div class="shop-link">Shop Now →</div>
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+
+    <button class="slider-btn next" aria-label="Next">&#10095;</button>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Custom Collection Slider",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop by Category"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Sub Heading",
+      "default": "Browse our most popular collections."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Choose Collection"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Collection Slider",
+      "blocks": [{ "type": "collection" }, { "type": "collection" }, { "type": "collection" }, { "type": "collection" }]
+    }
+  ]
+}
+{% endschema %}
+>>>>>>> 94141d712f3508a38e9adf959e5e53953c889580

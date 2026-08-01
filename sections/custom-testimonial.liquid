@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <section class="custom-testimonial page-width">
 
   <div class="testimonial-header">
@@ -164,4 +165,172 @@
   }
 ]
 }
+=======
+<section class="custom-testimonial page-width">
+
+  <div class="testimonial-header">
+    {% if section.settings.heading != blank %}
+      <h2>{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    {% if section.settings.subheading != blank %}
+      <p>{{ section.settings.subheading }}</p>
+    {% endif %}
+  </div>
+
+  <div class="testimonial-slider">
+
+    <button class="testimonial-btn prev" aria-label="Previous">
+      &#10094;
+    </button>
+
+    <div class="testimonial-track">
+
+      {% for block in section.blocks %}
+        <div class="testimonial-card" {{ block.shopify_attributes }}>
+
+          <div class="testimonial-stars">
+
+  {% for i in (1..5) %}
+
+    {% if i <= block.settings.rating %}
+      <span class="star filled">★</span>
+    {% else %}
+      <span class="star">★</span>
+    {% endif %}
+
+  {% endfor %}
+
+</div>
+
+          <div class="testimonial-review">
+            "{{ block.settings.review }}"
+          </div>
+
+          <div class="testimonial-author">
+
+           {% if block.settings.image != blank %}
+
+  {{
+    block.settings.image
+    | image_url: width: 120
+    | image_tag:
+      class: 'testimonial-avatar',
+      loading: 'lazy'
+  }}
+
+{% else %}
+
+  {% assign avatar = 'before.png' %}
+
+  {% if forloop.index == 2 %}
+    {% assign avatar = 'after.png' %}
+  {% endif %}
+
+  <img
+    src="{{ avatar | asset_url }}"
+    alt="{{ block.settings.name }}"
+    class="testimonial-avatar"
+    loading="lazy"
+    height=""
+            width=""
+  >
+
+{% endif %}
+
+            <div>
+              <h4>{{ block.settings.name }}</h4>
+              <span>{{ block.settings.designation }}</span>
+            </div>
+
+          </div>
+
+        </div>
+      {% endfor %}
+
+    </div>
+
+    <button class="testimonial-btn next" aria-label="Next">
+      &#10095;
+    </button>
+
+  </div>
+
+</section>
+
+{% schema %}
+{
+  "name": "Custom Testimonial",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What Our Customers Say"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Trusted by thousands of happy customers."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Customer Image"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Customer Name",
+          "default": "John Smith"
+        },
+        {
+          "type": "text",
+          "id": "designation",
+          "label": "Designation",
+          "default": "Verified Customer"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "review",
+          "label": "Review",
+          "default": "Amazing quality! Highly recommended."
+        }
+      ]
+    }
+  ],
+  "presets": [
+  {
+    "name": "Custom Testimonial",
+    "blocks": [
+      {
+        "type": "testimonial"
+      },
+      {
+        "type": "testimonial"
+      },
+      {
+        "type": "testimonial"
+      }
+    ]
+  }
+]
+}
+>>>>>>> 94141d712f3508a38e9adf959e5e53953c889580
 {% endschema %}

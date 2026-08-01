@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <section
   class="custom-countdown"
   style="
@@ -128,3 +129,135 @@
   ]
 }
 {% endschema %}
+=======
+<section
+  class="custom-countdown"
+  style="
+    background: {{ section.settings.background_color }};
+    color: {{ section.settings.text_color }};
+  "
+>
+  <div class="countdown-bg">
+  {% if section.settings.background_image != blank %}
+    {{
+      section.settings.background_image
+      | image_url: width: 2200
+      | image_tag: class: 'countdown-background', loading: 'lazy'
+    }}
+  {% else %}
+    <img
+        src="{{ 'after.png' | asset_url }}"
+        class="countdown-background"
+        alt="Countdown Banner"
+        loading="lazy"
+        width="2000"
+        height="500"
+      >
+  {% endif %}
+</div>
+
+  <div class="page-width countdown-content">
+    {% if section.settings.heading != blank %}
+      <h2>{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    {% if section.settings.subheading != blank %}
+      <p>{{ section.settings.subheading }}</p>
+    {% endif %}
+
+    <div
+      class="countdown-timer"
+      data-date="{{ section.settings.end_date }}"
+    >
+      <div class="time-box">
+        <span class="days">00</span>
+        <small>Days</small>
+      </div>
+
+      <div class="time-box">
+        <span class="hours">00</span>
+        <small>Hours</small>
+      </div>
+
+      <div class="time-box">
+        <span class="minutes">00</span>
+        <small>Minutes</small>
+      </div>
+
+      <div class="time-box">
+        <span class="seconds">00</span>
+        <small>Seconds</small>
+      </div>
+    </div>
+
+    {% if section.settings.button_label != blank %}
+      <a
+        href="{{ section.settings.button_link }}"
+        class="countdown-btn"
+      >
+        {{ section.settings.button_label }}
+      </a>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Custom Countdown Timer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Flash Sale"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Hurry! Offer ends soon."
+    },
+    {
+      "type": "text",
+      "id": "end_date",
+      "label": "End Date",
+      "info": "Format: YYYY-MM-DD HH:MM:SS",
+      "default": "2026-12-31 23:59:59"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Shop Collection"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Countdown Timer"
+    }
+  ]
+}
+{% endschema %}
+>>>>>>> 94141d712f3508a38e9adf959e5e53953c889580

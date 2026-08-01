@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <section class="custom-logo-slider">
   <div class="page-width">
     {% if section.settings.heading != blank %}
@@ -136,3 +137,143 @@
   ]
 }
 {% endschema %}
+=======
+<section class="custom-logo-slider">
+  <div class="page-width">
+    {% if section.settings.heading != blank %}
+      <div class="logo-header">
+        <h2>{{ section.settings.heading }}</h2>
+      </div>
+    {% endif %}
+  </div>
+
+  <div
+    class="logo-slider"
+    style="--logo-speed: {{ section.settings.speed }}s;"
+  >
+    <div class="logo-track">
+      {% if section.blocks.size > 0 %}
+        {% for i in (1..2) %}
+          {% for block in section.blocks %}
+            <div class="logo-item" {{ block.shopify_attributes }}>
+              {% if block.settings.link != blank %}
+                <a
+                  href="{{ block.settings.link }}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+              {% endif %}
+
+              {% if block.settings.image != blank %}
+                {{ block.settings.image | image_url: width: 400 | image_tag: loading: 'lazy', class: 'logo-image' }}
+
+              {% else %}
+                {% if forloop.index == 1 or forloop.index == 3 or forloop.index == 5 %}
+                  <img
+                    src="{{ 'before.png' | asset_url }}"
+                    class="logo-image"
+                    alt="Demo Logo"
+                    height=""
+                    width=""
+                  >
+                {% else %}
+                  <img
+                    src="{{ 'after.png' | asset_url }}"
+                    class="logo-image"
+                    alt="Demo Logo"
+                    height=""
+                    width=""
+                  >
+                {% endif %}
+              {% endif %}
+
+              {% if block.settings.link != blank %}
+                </a>
+              {% endif %}
+            </div>
+          {% endfor %}
+        {% endfor %}
+
+      {% else %}
+        {% for i in (1..12) %}
+          <div class="logo-item">
+            {% assign remainder = i | modulo: 2 %}
+
+            {% if remainder == 0 %}
+              <img
+                src="{{ 'after.png' | asset_url }}"
+                class="logo-image"
+                alt="Demo Logo"
+                height=""
+                width=""
+              />
+            {% else %}
+              <img
+                src="{{ 'before.png' | asset_url }}"
+                class="logo-image"
+                alt="Demo Logo"
+                height=""
+                width=""
+              />
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Custom Logo Slider",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Trusted by Leading Brands"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Animation Speed (Seconds)",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "default": 30
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Logo Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Logo Slider",
+      "blocks": [
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" }
+      ]
+    }
+  ]
+}
+{% endschema %}
+>>>>>>> 94141d712f3508a38e9adf959e5e53953c889580
