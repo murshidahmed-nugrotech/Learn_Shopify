@@ -1,0 +1,20 @@
+{
+
+  
+  "name": "learn-shopify",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node scripts/shopify.js dev",
+    "pull": "node scripts/shopify.js pull",
+    "push": "node scripts/shopify.js push",
+    "open": "node scripts/shopify.js open",
+    "list": "node scripts/shopify.js list",
+    "info": "node scripts/shopify.js info",
+    "publish": "node scripts/shopify.js publish",
+    "delete": "node scripts/shopify.js delete"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.1"
+  }
+}

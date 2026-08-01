@@ -1,146 +1,267 @@
+<<<<<<< HEAD
 <section
-    class="custom-newsletter"
-    style="
-        background: {{ section.settings.background_color }};
-        color: {{ section.settings.text_color }};
-    "
+  class="custom-newsletter"
+  style="
+    background: {{ section.settings.background_color }};
+    color: {{ section.settings.text_color }};
+  "
 >
-
+  <div class="newsletter-bg">
     {% if section.settings.background_image != blank %}
+      {{
+        section.settings.background_image
+        | image_url: width: 2000
+        | image_tag: loading: 'lazy', class: 'newsletter-background'
+      }}
 
-        <div class="newsletter-bg">
+    {% else %}
+      <img
+        src="{{ 'before.png' | asset_url }}"
+        alt="Newsletter Background"
+        class="newsletter-background"
+        loading="lazy"
+        height=""
+        width=""
+      >
+    {% endif %}
+  </div>
 
-            {{
-                section.settings.background_image
-                | image_url: width: 2000
-                | image_tag:
-                loading: 'lazy',
-                class: 'newsletter-background'
-            }}
-
-        </div>
-
+  <div class="page-width newsletter-content">
+    {% if section.settings.heading != blank %}
+      <h2>{{ section.settings.heading }}</h2>
     {% endif %}
 
-    <div class="page-width newsletter-content">
+    {% if section.settings.subheading != blank %}
+      <p>{{ section.settings.subheading }}</p>
+    {% endif %}
 
-        {% if section.settings.heading != blank %}
-            <h2 style="color:white">{{ section.settings.heading }}</h2>
-        {% endif %}
+    {% form 'customer', class: 'newsletter-form' %}
+      <div class="newsletter-form-row">
+        <input
+          type="hidden"
+          name="contact[tags]"
+          value="newsletter"
+        >
+        <input
+          type="email"
+          name="contact[email]"
+          placeholder="{{ section.settings.placeholder }}"
+          required
+        >
 
-        {% if section.settings.subheading != blank %}
-            <p>{{ section.settings.subheading }}</p>
-        {% endif %}
+        <button type="submit">
+          {{ section.settings.button_text }}
+        </button>
+      </div>
+      {% if form.posted_successfully? %}
+        <p class="newsletter-success">Thanks for subscribing!</p>
+      {% endif %}
 
-        {% form 'customer', class: 'newsletter-form' %}
+      {% if form.errors %}
+        <p class="newsletter-error">
+          {{ form.errors | default_errors }}
+        </p>
+      {% endif %}
+    {% endform %}
 
-            <input
-                type="hidden"
-                name="contact[tags]"
-                value="newsletter"
-            >
-
-            <input
-                type="email"
-                name="contact[email]"
-                placeholder="{{ section.settings.placeholder }}"
-                required
-            >
-
-            <button type="submit">
-                {{ section.settings.button_text }}
-            </button>
-
-            {% if form.posted_successfully? %}
-
-                <p class="newsletter-success">
-                    Thanks for subscribing!
-                </p>
-
-            {% endif %}
-
-            {% if form.errors %}
-
-                <p class="newsletter-error">
-
-                    {{ form.errors | default_errors }}
-
-                </p>
-
-            {% endif %}
-
-        {% endform %}
-
-        {% if section.settings.note != blank %}
-
-            <small>
-
-                {{ section.settings.note }}
-
-            </small>
-
-        {% endif %}
-
-    </div>
-
+    {% if section.settings.note != blank %}
+      <small>
+        {{ section.settings.note }}
+      </small>
+    {% endif %}
+  </div>
 </section>
 
 {% schema %}
 {
-    "name":"Custom Newsletter",
-    "settings":[
-        {
-            "type":"text",
-            "id":"heading",
-            "label":"Heading",
-            "default":"Stay in the Loop"
-        },
-        {
-            "type":"textarea",
-            "id":"subheading",
-            "label":"Subheading",
-            "default":"Subscribe to receive exclusive offers, new arrivals and special discounts."
-        },
-        {
-            "type":"text",
-            "id":"placeholder",
-            "label":"Email Placeholder",
-            "default":"Enter your email address"
-        },
-        {
-            "type":"text",
-            "id":"button_text",
-            "label":"Button Text",
-            "default":"Subscribe"
-        },
-        {
-            "type":"textarea",
-            "id":"note",
-            "label":"Bottom Note",
-            "default":"No spam. Unsubscribe anytime."
-        },
-        {
-            "type":"color",
-            "id":"background_color",
-            "label":"Background Color",
-            "default":"#111111"
-        },
-        {
-            "type":"color",
-            "id":"text_color",
-            "label":"Text Color",
-            "default":"#ffffff"
-        },
-        {
-            "type":"image_picker",
-            "id":"background_image",
-            "label":"Background Image"
-        }
-    ],
-    "presets":[
-        {
-            "name":"Custom Newsletter"
-        }
-    ]
+  "name": "Custom Newsletter",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Stay in the Loop"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Subscribe to receive exclusive offers, new arrivals and special discounts."
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Email Placeholder",
+      "default": "Enter your email address"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Subscribe"
+    },
+    {
+      "type": "textarea",
+      "id": "note",
+      "label": "Bottom Note",
+      "default": "No spam. Unsubscribe anytime."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Newsletter"
+    }
+  ]
 }
 {% endschema %}
+=======
+<section
+  class="custom-newsletter"
+  style="
+    background: {{ section.settings.background_color }};
+    color: {{ section.settings.text_color }};
+  "
+>
+  <div class="newsletter-bg">
+    {% if section.settings.background_image != blank %}
+      {{
+        section.settings.background_image
+        | image_url: width: 2000
+        | image_tag: loading: 'lazy', class: 'newsletter-background'
+      }}
+
+    {% else %}
+      <img
+        src="{{ 'before.png' | asset_url }}"
+        alt="Newsletter Background"
+        class="newsletter-background"
+        loading="lazy"
+        height=""
+        width=""
+      >
+    {% endif %}
+  </div>
+
+  <div class="page-width newsletter-content">
+    {% if section.settings.heading != blank %}
+      <h2>{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    {% if section.settings.subheading != blank %}
+      <p>{{ section.settings.subheading }}</p>
+    {% endif %}
+
+    {% form 'customer', class: 'newsletter-form' %}
+      <div class="newsletter-form-row">
+        <input
+          type="hidden"
+          name="contact[tags]"
+          value="newsletter"
+        >
+        <input
+          type="email"
+          name="contact[email]"
+          placeholder="{{ section.settings.placeholder }}"
+          required
+        >
+
+        <button type="submit">
+          {{ section.settings.button_text }}
+        </button>
+      </div>
+      {% if form.posted_successfully? %}
+        <p class="newsletter-success">Thanks for subscribing!</p>
+      {% endif %}
+
+      {% if form.errors %}
+        <p class="newsletter-error">
+          {{ form.errors | default_errors }}
+        </p>
+      {% endif %}
+    {% endform %}
+
+    {% if section.settings.note != blank %}
+      <small>
+        {{ section.settings.note }}
+      </small>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Custom Newsletter",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Stay in the Loop"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Subscribe to receive exclusive offers, new arrivals and special discounts."
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Email Placeholder",
+      "default": "Enter your email address"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Subscribe"
+    },
+    {
+      "type": "textarea",
+      "id": "note",
+      "label": "Bottom Note",
+      "default": "No spam. Unsubscribe anytime."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Newsletter"
+    }
+  ]
+}
+{% endschema %}
+>>>>>>> 94141d712f3508a38e9adf959e5e53953c889580

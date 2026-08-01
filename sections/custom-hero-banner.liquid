@@ -1,33 +1,61 @@
+<<<<<<< HEAD
 <section
   class="custom-hero-banner hero-align-{{ section.settings.content_alignment }} hero-position-{{ section.settings.content_position }}"
 >
   {% if section.settings.video != blank %}
-    {{
-      section.settings.video
-      | video_tag: autoplay: true, loop: true, muted: true, controls: false, class: 'hero-video'
-    }}
-  {% else %}
+
+  {{
+    section.settings.video
+    | video_tag:
+      autoplay: true,
+      loop: true,
+      muted: true,
+      controls: false,
+      class: 'hero-video'
+  }}
+
+{% else %}
+
+  <picture>
+
     {% if section.settings.mobile_image != blank %}
-      <picture>
-        <source
-          media="(max-width:749px)"
-          srcset="{{ section.settings.mobile_image | image_url: width: 800 }}"
-        >
-
-        <img
-          src="{{ section.settings.desktop_image | image_url: width: 2000 }}"
-          alt="{{ section.settings.heading }}"
-          class="hero-image"
-          loading="eager"
-          width="2000"
-          height="1200"
-        >
-      </picture>
-
-    {% elsif section.settings.desktop_image != blank %}
-      {{ section.settings.desktop_image | image_url: width: 2000 | image_tag: loading: 'eager', class: 'hero-image' }}
+      <source
+        media="(max-width:749px)"
+        srcset="{{ section.settings.mobile_image | image_url: width: 900 }}"
+      >
+    {% else %}
+      <source
+        media="(max-width:749px)"
+        srcset="{{ 'after.png' | asset_url }}"
+      >
     {% endif %}
-  {% endif %}
+
+    {% if section.settings.desktop_image != blank %}
+
+      {{
+        section.settings.desktop_image
+        | image_url: width: 2200
+        | image_tag:
+          class: 'hero-image',
+          loading: 'eager'
+      }}
+
+    {% else %}
+
+      <img
+        src="{{ 'before.png' | asset_url }}"
+        alt="{{ section.settings.heading }}"
+        class="hero-image"
+        loading="eager"
+        height=""
+        width=""
+      >
+
+    {% endif %}
+
+  </picture>
+
+{% endif %}
 
   <div
     class="hero-overlay"
@@ -157,3 +185,191 @@
   ]
 }
 {% endschema %}
+=======
+<section
+  class="custom-hero-banner hero-align-{{ section.settings.content_alignment }} hero-position-{{ section.settings.content_position }}"
+>
+  {% if section.settings.video != blank %}
+
+  {{
+    section.settings.video
+    | video_tag:
+      autoplay: true,
+      loop: true,
+      muted: true,
+      controls: false,
+      class: 'hero-video'
+  }}
+
+{% else %}
+
+  <picture>
+
+    {% if section.settings.mobile_image != blank %}
+      <source
+        media="(max-width:749px)"
+        srcset="{{ section.settings.mobile_image | image_url: width: 900 }}"
+      >
+    {% else %}
+      <source
+        media="(max-width:749px)"
+        srcset="{{ 'after.png' | asset_url }}"
+      >
+    {% endif %}
+
+    {% if section.settings.desktop_image != blank %}
+
+      {{
+        section.settings.desktop_image
+        | image_url: width: 2200
+        | image_tag:
+          class: 'hero-image',
+          loading: 'eager'
+      }}
+
+    {% else %}
+
+      <img
+        src="{{ 'before.png' | asset_url }}"
+        alt="{{ section.settings.heading }}"
+        class="hero-image"
+        loading="eager"
+        height=""
+        width=""
+      >
+
+    {% endif %}
+
+  </picture>
+
+{% endif %}
+
+  <div
+    class="hero-overlay"
+    style="opacity:{{ section.settings.overlay_opacity | divided_by:100.0 }};"
+  ></div>
+
+  <div class="page-width hero-content">
+    <div class="hero-inner">
+      {% if section.settings.heading != blank %}
+        <h1>{{ section.settings.heading }}</h1>
+      {% endif %}
+
+      {% if section.settings.subheading != blank %}
+        <p>{{ section.settings.subheading }}</p>
+      {% endif %}
+
+      <div class="hero-buttons">
+        {% if section.settings.button_label != blank %}
+          <a href="{{ section.settings.button_link }}" class="button">
+            {{ section.settings.button_label }}
+          </a>
+        {% endif %}
+
+        {% if section.settings.secondary_label != blank %}
+          <a
+            href="{{ section.settings.secondary_link }}"
+            class="button button--secondary"
+          >
+            {{ section.settings.secondary_label }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Custom Hero Banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "Desktop Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Background Video"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Build Your Dream Store"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Professional Shopify themes designed for performance and conversions."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Primary Button",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Primary Button Link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "Secondary Button",
+      "default": "Learn More"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Secondary Button Link"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Horizontal Alignment",
+      "default": "left",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "Vertical Position",
+      "default": "middle",
+      "options": [
+        { "value": "top", "label": "Top" },
+        { "value": "middle", "label": "Middle" },
+        { "value": "bottom", "label": "Bottom" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Hero Banner"
+    }
+  ]
+}
+{% endschema %}
+>>>>>>> 94141d712f3508a38e9adf959e5e53953c889580
