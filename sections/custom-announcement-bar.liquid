@@ -31,6 +31,8 @@
       >
         ×
       </button>
+      <input type="text" id="search-box" placeholder="Search products">
+      <div id="search-results"></div>
     {% endif %}
   </div>
 </div>
@@ -119,6 +121,28 @@
     }
 
   });
+
+  // SEARCH BOX
+const searchBox = document.querySelector("#search-box");
+const searchResults = document.querySelector("#search-results");
+let debounceTimer;
+
+searchBox.addEventListener("input", (event) => {
+
+  const keyword = event.target.value;
+
+  clearTimeout(debounceTimer);
+
+  debounceTimer = setTimeout(() => {
+
+  fetch(`/search/suggest?q=${keyword}&section_id=predictive-search`)
+    .then(response => response.text())
+    .then(data => {
+      searchResults.innerHTML = data;
+    });
+  }, 300);
+
+});
 </script>
 
 {% schema %}
@@ -181,7 +205,30 @@
   ],
   "presets": [
     {
-      "name": "Custom Announcement Bar"
+      "name": "Custom Announcement Bar",
+      "blocks": [
+        {
+          "type": "announcement",
+          "settings": {
+            "text": "Free Shipping on Orders Over ₹999",
+            "link": ""
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "text": "New Arrivals Just Landed!",
+            "link": ""
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "text": "Use Code WELCOME10 for 10% Off",
+            "link": ""
+          }
+        }
+      ]
     }
   ]
 }

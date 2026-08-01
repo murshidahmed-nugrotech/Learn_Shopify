@@ -2,32 +2,59 @@
   class="custom-hero-banner hero-align-{{ section.settings.content_alignment }} hero-position-{{ section.settings.content_position }}"
 >
   {% if section.settings.video != blank %}
-    {{
-      section.settings.video
-      | video_tag: autoplay: true, loop: true, muted: true, controls: false, class: 'hero-video'
-    }}
-  {% else %}
+
+  {{
+    section.settings.video
+    | video_tag:
+      autoplay: true,
+      loop: true,
+      muted: true,
+      controls: false,
+      class: 'hero-video'
+  }}
+
+{% else %}
+
+  <picture>
+
     {% if section.settings.mobile_image != blank %}
-      <picture>
-        <source
-          media="(max-width:749px)"
-          srcset="{{ section.settings.mobile_image | image_url: width: 800 }}"
-        >
-
-        <img
-          src="{{ section.settings.desktop_image | image_url: width: 2000 }}"
-          alt="{{ section.settings.heading }}"
-          class="hero-image"
-          loading="eager"
-          width="2000"
-          height="1200"
-        >
-      </picture>
-
-    {% elsif section.settings.desktop_image != blank %}
-      {{ section.settings.desktop_image | image_url: width: 2000 | image_tag: loading: 'eager', class: 'hero-image' }}
+      <source
+        media="(max-width:749px)"
+        srcset="{{ section.settings.mobile_image | image_url: width: 900 }}"
+      >
+    {% else %}
+      <source
+        media="(max-width:749px)"
+        srcset="{{ 'after.png' | asset_url }}"
+      >
     {% endif %}
-  {% endif %}
+
+    {% if section.settings.desktop_image != blank %}
+
+      {{
+        section.settings.desktop_image
+        | image_url: width: 2200
+        | image_tag:
+          class: 'hero-image',
+          loading: 'eager'
+      }}
+
+    {% else %}
+
+      <img
+        src="{{ 'before.png' | asset_url }}"
+        alt="{{ section.settings.heading }}"
+        class="hero-image"
+        loading="eager"
+        height=""
+        width=""
+      >
+
+    {% endif %}
+
+  </picture>
+
+{% endif %}
 
   <div
     class="hero-overlay"

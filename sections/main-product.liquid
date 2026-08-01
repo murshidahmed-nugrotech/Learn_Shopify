@@ -105,7 +105,20 @@
                         {{ product.title | escape }}
                       </h2>
                     </a>
+                    <p>Product ID: {{ product.id }}</p>
+
+                    <p>Variant ID: {{ product.selected_or_first_available_variant.id }}</p>
                   </div>
+
+                  <button
+                    id="my-add-to-cart"
+                    data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                  >
+                    Add to Cart
+                  </button>
+                  <button id="show-cart">Show Cart</button>
+                  <span id="cart-count">0</span>
+
                 {%- when 'price' -%}
                   <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
                     {%- render 'price',
@@ -746,9 +759,9 @@
         endif
       -%}
 
-      <script type="application/ld+json">
-        {{ product | structured_data }}
-      </script>
+       <script type="application/ld+json">
+         {{ product | structured_data }}
+       </script>
     </div>
   </product-component>
 </product-info>

@@ -1,18 +1,16 @@
-
-
 <section class="fps-section" id="fps-{{ section.id }}">
   <div class="page-width">
     <div class="fps-header">
       <h2>{{ section.settings.heading }}</h2>
 
-      {% assign collection = collections[section.settings.collection] %}
+{% assign collection = section.settings.collection %}
 
-      {% if collection %}
+{% if collection != blank and collection.products_count > 0 %}
         <a class="fps-view-all" href="{{ collection.url }}"> View All → </a>
       {% endif %}
     </div>
 
-    {% if collection %}
+    {% if collection != blank and collection.products_count > 0 %}
       <div class="fps-slider-wrapper">
         <button
           class="fps-arrow fps-prev"
@@ -40,7 +38,94 @@
       </div>
 
     {% else %}
-      <p>Select a collection from the Theme Editor.</p>
+      <div class="fps-slider-wrapper">
+
+  <button
+    class="fps-arrow fps-prev"
+    type="button"
+    aria-label="Previous"
+  >
+    &#10094;
+  </button>
+
+  <div class="fps-slider">
+
+    {% assign demo_titles = "Classic T-Shirt,Premium Hoodie,Sport Shoes,Leather Bag" | split: "," %}
+    {% assign demo_prices = "₹999,₹1,999,₹2,499,₹3,499" | split: "," %}
+
+    {% for i in (1..4) %}
+
+      <div class="fps-slide">
+
+        <div class="fps-card">
+
+          <a href="#" class="fps-image-link">
+
+            <div class="fps-image-wrapper">
+
+              {% if forloop.index == 1 or forloop.index == 3 %}
+                <img
+                  src="{{ 'before.png' | asset_url }}"
+                  class="fps-image"
+                  alt="{{ demo_titles[forloop.index0] }}"
+                  height=""
+                  width=""
+                >
+              {% else %}
+                <img
+                  src="{{ 'after.png' | asset_url }}"
+                  class="fps-image"
+                  alt="{{ demo_titles[forloop.index0] }}"
+                  height=""
+                  width=""
+                >
+              {% endif %}
+
+            </div>
+
+          </a>
+
+          <div class="fps-content">
+
+            <div class="fps-category">
+              Demo Product
+            </div>
+
+            <h3 class="fps-title">
+              <a href="#">
+                {{ demo_titles[forloop.index0] }}
+              </a>
+            </h3>
+
+            <div class="fps-rating">
+              ★★★★★ <span>(24)</span>
+            </div>
+
+            <div class="fps-price">
+              <span class="current-price">
+                {{ demo_prices[forloop.index0] }}
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    {% endfor %}
+
+  </div>
+
+  <button
+    class="fps-arrow fps-next"
+    type="button"
+    aria-label="Next"
+  >
+    &#10095;
+  </button>
+
+</div>
     {% endif %}
   </div>
 </section>
