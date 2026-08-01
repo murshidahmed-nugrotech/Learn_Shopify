@@ -10,15 +10,15 @@
 
     <a href="{{ product.url }}" class="fps-image-link">
 
-      {% if product.featured_image %}
-        {{
-          product.featured_image
-          | image_url: width: 600
-          | image_tag:
-          class: 'fps-image',
-          loading: 'lazy',
-          alt: product.title
-        }}
+       {% if product.featured_image %}
+         {{
+           product.featured_image
+           | image_url: width: 600
+           | image_tag:
+           class: 'fps-image',
+           loading: 'lazy',
+           alt: product.title
+         }}
       {% endif %}
 
       {% if product.images.size > 1 %}

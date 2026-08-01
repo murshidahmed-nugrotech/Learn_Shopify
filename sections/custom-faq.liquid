@@ -14,29 +14,51 @@
 
   <div class="faq-wrapper">
 
-    {% for block in section.blocks %}
+    {% if section.blocks.size > 0 %}
 
-      <div class="faq-item" {{ block.shopify_attributes }}>
+      {% for block in section.blocks %}
+        <div class="faq-item" {{ block.shopify_attributes }}>
 
-        <button class="faq-question">
+          <button class="faq-question">
+            <span>{{ block.settings.question }}</span>
+            <span class="faq-icon">+</span>
+          </button>
 
-          <span>{{ block.settings.question }}</span>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              {{ block.settings.answer }}
+            </div>
+          </div>
 
-          <span class="faq-icon">+</span>
+        </div>
+      {% endfor %}
 
-        </button>
+    {% else %}
 
-        <div class="faq-answer">
+      {% assign questions = "What payment methods do you accept?|How long does shipping take?|Can I return my order?|How can I track my order?" | split: "|" %}
 
-          <div class="faq-answer-inner">
-            {{ block.settings.answer }}
+      {% assign answers = "We accept Visa, Mastercard, UPI and PayPal.|Shipping takes 3–7 business days.|Returns are accepted within 30 days.|Tracking details are sent via email after dispatch." | split: "|" %}
+
+      {% for question in questions %}
+
+        <div class="faq-item">
+
+          <button class="faq-question">
+            <span>{{ question }}</span>
+            <span class="faq-icon">+</span>
+          </button>
+
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              <p>{{ answers[forloop.index0] }}</p>
+            </div>
           </div>
 
         </div>
 
-      </div>
+      {% endfor %}
 
-    {% endfor %}
+    {% endif %}
 
   </div>
 
@@ -80,9 +102,15 @@
     }
   ],
   "presets": [
-    {
-      "name": "Custom FAQ"
-    }
-  ]
+  {
+    "name": "Custom FAQ",
+    "blocks": [
+      { "type": "faq" },
+      { "type": "faq" },
+      { "type": "faq" },
+      { "type": "faq" }
+    ]
+  }
+]
 }
 {% endschema %}

@@ -11,28 +11,42 @@
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
-    "announcement-bar": {
-      "type": "announcement-bar",
+    "custom-announcement-bar": {
+      "type": "custom-announcement-bar",
       "blocks": {
-        "announcement-bar-0": {
+        "announcement-1": {
           "type": "announcement",
           "settings": {
-            "text": "Welcome to our store",
+            "text": "Free Shipping on Orders Over ₹999",
+            "link": ""
+          }
+        },
+        "announcement-2": {
+          "type": "announcement",
+          "settings": {
+            "text": "New Arrivals Just Landed!",
+            "link": ""
+          }
+        },
+        "announcement-3": {
+          "type": "announcement",
+          "settings": {
+            "text": "Use Code WELCOME10 for 10% Off",
             "link": ""
           }
         }
       },
       "block_order": [
-        "announcement-bar-0"
+        "announcement-1",
+        "announcement-2",
+        "announcement-3"
       ],
       "settings": {
-        "auto_rotate": false,
-        "change_slides_speed": 5,
-        "color_scheme": "scheme-1",
-        "show_line_separator": true,
-        "show_social": false,
-        "enable_country_selector": false,
-        "enable_language_selector": false
+        "bg_color": "#111111",
+        "text_color": "#ffffff",
+        "autoplay": true,
+        "speed": 4,
+        "show_close": true
       }
     },
     "header": {
@@ -56,7 +70,7 @@
     }
   },
   "order": [
-    "announcement-bar",
+    "custom-announcement-bar",
     "header"
   ]
 }

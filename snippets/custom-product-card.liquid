@@ -1,74 +1,117 @@
+{% assign is_demo = demo | default: false %}
+
 <div class="custom-product-card">
 
-  <a href="{{ product.url }}" class="product-image-wrapper">
+  <a
+    href="{% if is_demo %}#{% else %}{{ product.url }}{% endif %}"
+    class="product-image-wrapper"
+  >
 
-    {% if product.featured_image %}
-      {{
-        product.featured_image
-        | image_url: width: 800
-        | image_tag:
-          class: 'product-image',
-          loading: 'lazy',
-          alt: product.title
-      }}
+    {% if is_demo %}
+
+      <img
+        src="{% if image == 'after' %}{{ 'after.png' | asset_url }}{% else %}{{ 'before.png' | asset_url }}{% endif %}"
+        class="product-image"
+        alt="{{ title }}"
+        height=""
+        width=""
+      >
+
+    {% else %}
+
+      {% if product.featured_image %}
+        {{
+          product.featured_image
+          | image_url: width: 800
+          | image_tag:
+            class: 'product-image',
+            loading: 'lazy',
+            alt: product.title
+        }}
+      {% endif %}
+
+      {% if product.images.size > 1 %}
+        {{
+          product.images[1]
+          | image_url: width: 800
+          | image_tag:
+            class: 'product-image product-hover-image',
+            loading: 'lazy',
+            alt: product.title
+        }}
+      {% endif %}
+
+      {% if product.compare_at_price > product.price %}
+        <span class="product-badge sale">
+          Sale
+        </span>
+      {% endif %}
+
+      {% unless product.available %}
+        <span class="product-badge soldout">
+          Sold Out
+        </span>
+      {% endunless %}
+
     {% endif %}
-
-    {% if product.images.size > 1 %}
-      {{
-        product.images[1]
-        | image_url: width: 800
-        | image_tag:
-          class: 'product-image product-hover-image',
-          loading: 'lazy',
-          alt: product.title
-      }}
-    {% endif %}
-
-    {% if product.compare_at_price > product.price %}
-      <span class="product-badge sale">
-        Sale
-      </span>
-    {% endif %}
-
-    {% unless product.available %}
-      <span class="product-badge soldout">
-        Sold Out
-      </span>
-    {% endunless %}
 
   </a>
 
   <div class="product-content">
 
-    {% if settings.show_vendor %}
-      <div class="product-vendor">
-        {{ product.vendor }}
-      </div>
-    {% endif %}
+    {% unless is_demo %}
+
+      {% if settings.show_vendor %}
+        <div class="product-vendor">
+          {{ product.vendor }}
+        </div>
+      {% endif %}
+
+    {% endunless %}
 
     <h3 class="product-title">
-      <a href="{{ product.url }}">
-        {{ product.title }}
+
+      <a href="{% if is_demo %}#{% else %}{{ product.url }}{% endif %}">
+
+        {% if is_demo %}
+          {{ title }}
+        {% else %}
+          {{ product.title }}
+        {% endif %}
+
       </a>
+
     </h3>
 
     <div class="product-price">
 
-      {% if product.compare_at_price > product.price %}
-        <span class="old-price">
-          {{ product.compare_at_price | money }}
-        </span>
-      {% endif %}
+      {% if is_demo %}
 
-      <span class="current-price">
-        {{ product.price | money }}
-      </span>
+        <span class="current-price">
+          {{ price }}
+        </span>
+
+      {% else %}
+
+        {% if product.compare_at_price > product.price %}
+          <span class="old-price">
+            {{ product.compare_at_price | money }}
+          </span>
+        {% endif %}
+
+        <span class="current-price">
+          {{ product.price | money }}
+        </span>
+
+      {% endif %}
 
     </div>
 
     <button
       class="button product-add-cart"
-      data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+      {% unless is_demo %}
+        data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+      {% endunless %}
     >
       Add to Cart
     </button>

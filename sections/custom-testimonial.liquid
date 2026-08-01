@@ -22,10 +22,18 @@
         <div class="testimonial-card" {{ block.shopify_attributes }}>
 
           <div class="testimonial-stars">
-            {% for i in (1..block.settings.rating) %}
-              ★
-            {% endfor %}
-          </div>
+
+  {% for i in (1..5) %}
+
+    {% if i <= block.settings.rating %}
+      <span class="star filled">★</span>
+    {% else %}
+      <span class="star">★</span>
+    {% endif %}
+
+  {% endfor %}
+
+</div>
 
           <div class="testimonial-review">
             "{{ block.settings.review }}"
@@ -33,15 +41,34 @@
 
           <div class="testimonial-author">
 
-            {% if block.settings.image != blank %}
-              {{
-                block.settings.image
-                | image_url: width: 120
-                | image_tag:
-                  class: 'testimonial-avatar',
-                  loading: 'lazy'
-              }}
-            {% endif %}
+           {% if block.settings.image != blank %}
+
+  {{
+    block.settings.image
+    | image_url: width: 120
+    | image_tag:
+      class: 'testimonial-avatar',
+      loading: 'lazy'
+  }}
+
+{% else %}
+
+  {% assign avatar = 'before.png' %}
+
+  {% if forloop.index == 2 %}
+    {% assign avatar = 'after.png' %}
+  {% endif %}
+
+  <img
+    src="{{ avatar | asset_url }}"
+    alt="{{ block.settings.name }}"
+    class="testimonial-avatar"
+    loading="lazy"
+    height=""
+            width=""
+  >
+
+{% endif %}
 
             <div>
               <h4>{{ block.settings.name }}</h4>
@@ -121,9 +148,20 @@
     }
   ],
   "presets": [
-    {
-      "name": "Custom Testimonial"
-    }
-  ]
+  {
+    "name": "Custom Testimonial",
+    "blocks": [
+      {
+        "type": "testimonial"
+      },
+      {
+        "type": "testimonial"
+      },
+      {
+        "type": "testimonial"
+      }
+    ]
+  }
+]
 }
 {% endschema %}

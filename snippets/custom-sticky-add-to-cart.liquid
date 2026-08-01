@@ -2,15 +2,15 @@
 
     <div class="sticky-cart-left">
 
-        {% if product.featured_image %}
-            {{
+         {% if product.featured_image %}
+             {{
                 product.featured_image
-                | image_url: width: 120
-                | image_tag:
-                class: 'sticky-cart-image',
-                loading: 'lazy'
-            }}
-        {% endif %}
+                 | image_url: width: 120
+                 | image_tag:
+                 class: 'sticky-cart-image',
+                 loading: 'lazy'
+             }}
+         {% endif %}
 
         <div class="sticky-cart-info">
 

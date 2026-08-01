@@ -1,5 +1,4 @@
 <section class="custom-collection-slider page-width">
-
   <div class="collection-slider-header">
     {% if section.settings.heading != blank %}
       <h2>{{ section.settings.heading }}</h2>
@@ -11,38 +10,32 @@
   </div>
 
   <div class="slider-wrapper">
-
-    <button class="slider-btn prev" aria-label="Previous">
-      &#10094;
-    </button>
+    <button class="slider-btn prev" aria-label="Previous">&#10094;</button>
 
     <div class="slider-track">
-
       {% for block in section.blocks %}
-        {% assign collection = collections[block.settings.collection] %}
+        {% assign collection = block.settings.collection %}
 
-        {% if collection %}
-          <div class="collection-card" {{ block.shopify_attributes }}>
-
+        <div class="collection-card" {{ block.shopify_attributes }}>
+          {% if collection %}
             <a href="{{ collection.url }}">
-
-              {% if collection.featured_image %}
-                {{
-                  collection.featured_image
-                  | image_url: width: 700
-                  | image_tag:
-                    loading: 'lazy',
-                    class: 'collection-image'
-                }}
-              {% elsif collection.products.first %}
-                {{
-                  collection.products.first.featured_image
-                  | image_url: width: 700
-                  | image_tag:
-                    loading: 'lazy',
-                    class: 'collection-image'
-                }}
-              {% endif %}
+              <div class="collection-image-wrapper">
+                {% if collection.featured_image %}
+                  {{
+                    collection.featured_image
+                    | image_url: width: 900
+                    | image_tag: class: 'collection-image', loading: 'lazy'
+                  }}
+                {% else %}
+                  <img
+                    src="{{ 'before.png' | asset_url }}"
+                    alt="{{ collection.title }}"
+                    class="collection-image"
+                    height=""
+                    width=""
+                  >
+                {% endif %}
+              </div>
 
               <div class="collection-content">
                 <h3>{{ collection.title }}</h3>
@@ -52,26 +45,34 @@
                   Product{% if collection.products_count != 1 %}s{% endif %}
                 </span>
 
-                <div class="shop-link">
-                  Shop Now →
-                </div>
+                <div class="shop-link">Shop Now →</div>
               </div>
-
             </a>
 
-          </div>
-        {% endif %}
+          {% else %}
+            <div class="collection-image-wrapper">
+              <img
+                src="{{ 'before.png' | asset_url }}"
+                alt="Demo Collection"
+                class="collection-image"
+                height=""
+                width=""
+              >
+            </div>
 
+            <div class="collection-content">
+              <h3>Men's Fashion</h3>
+              <span>24 Products</span>
+
+              <div class="shop-link">Shop Now →</div>
+            </div>
+          {% endif %}
+        </div>
       {% endfor %}
-
     </div>
 
-    <button class="slider-btn next" aria-label="Next">
-      &#10095;
-    </button>
-
+    <button class="slider-btn next" aria-label="Next">&#10095;</button>
   </div>
-
 </section>
 
 {% schema %}
@@ -106,7 +107,8 @@
   ],
   "presets": [
     {
-      "name": "Custom Collection Slider"
+      "name": "Custom Collection Slider",
+      "blocks": [{ "type": "collection" }, { "type": "collection" }, { "type": "collection" }, { "type": "collection" }]
     }
   ]
 }

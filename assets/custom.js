@@ -1,8 +1,6 @@
 // FEATURED COLLECTION SLIDER
 document.addEventListener("DOMContentLoaded", () => {
-
   document.querySelectorAll(".fps-section").forEach((section) => {
-
     const slider = section.querySelector(".fps-slider");
     const next = section.querySelector(".fps-next");
     const prev = section.querySelector(".fps-prev");
@@ -22,14 +20,14 @@ document.addEventListener("DOMContentLoaded", () => {
     next?.addEventListener("click", () => {
       slider.scrollBy({
         left: getScrollAmount(),
-        behavior: "smooth"
+        behavior: "smooth",
       });
     });
 
     prev?.addEventListener("click", () => {
       slider.scrollBy({
         left: -getScrollAmount(),
-        behavior: "smooth"
+        behavior: "smooth",
       });
     });
 
@@ -77,24 +75,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     slider.addEventListener("touchmove", (e) => {
-
       const touchMove = e.touches[0].clientX;
 
-      slider.scrollLeft += (touchStart - touchMove);
+      slider.scrollLeft += touchStart - touchMove;
 
       touchStart = touchMove;
-
     });
-
   });
-
 });
 
 // COLLECTION SLIDER
 document.addEventListener("DOMContentLoaded", () => {
-
-  document.querySelectorAll(".custom-collection-slider").forEach(section => {
-
+  document.querySelectorAll(".custom-collection-slider").forEach((section) => {
     const track = section.querySelector(".slider-track");
     const prev = section.querySelector(".prev");
     const next = section.querySelector(".next");
@@ -106,122 +98,99 @@ document.addEventListener("DOMContentLoaded", () => {
     next?.addEventListener("click", () => {
       track.scrollBy({
         left: scrollAmount,
-        behavior: "smooth"
+        behavior: "smooth",
       });
     });
 
     prev?.addEventListener("click", () => {
       track.scrollBy({
         left: -scrollAmount,
-        behavior: "smooth"
+        behavior: "smooth",
       });
     });
-
   });
-
 });
 
 /* PRODUCT TAB */
 
 document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".custom-product-tabs").forEach((section) => {
+    const buttons = section.querySelectorAll(".tab-button");
+    const tabs = section.querySelectorAll(".tab-content");
 
-    document.querySelectorAll(".custom-product-tabs").forEach(section => {
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        buttons.forEach((btn) => btn.classList.remove("active"));
+        tabs.forEach((tab) => tab.classList.remove("active"));
 
-        const buttons = section.querySelectorAll(".tab-button");
-        const tabs = section.querySelectorAll(".tab-content");
+        button.classList.add("active");
 
-        buttons.forEach(button => {
+        const target = section.querySelector("#" + button.dataset.tab);
 
-            button.addEventListener("click", () => {
-
-                buttons.forEach(btn => btn.classList.remove("active"));
-                tabs.forEach(tab => tab.classList.remove("active"));
-
-                button.classList.add("active");
-
-                const target = section.querySelector("#" + button.dataset.tab);
-
-                if(target){
-                    target.classList.add("active");
-                }
-
-            });
-
-        });
-
+        if (target) {
+          target.classList.add("active");
+        }
+      });
     });
-
+  });
 });
-
 
 /* ===================================
    TESTIMONIAL
 =================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".custom-testimonial").forEach((section) => {
+    const track = section.querySelector(".testimonial-track");
+    const prev = section.querySelector(".prev");
+    const next = section.querySelector(".next");
 
-    document.querySelectorAll(".custom-testimonial").forEach(section => {
+    if (!track) return;
 
-        const track = section.querySelector(".testimonial-track");
-        const prev = section.querySelector(".prev");
-        const next = section.querySelector(".next");
+    const scrollAmount = 450;
 
-        if (!track) return;
-
-        const scrollAmount = 450;
-
-        next?.addEventListener("click", () => {
-            track.scrollBy({
-                left: scrollAmount,
-                behavior: "smooth"
-            });
-        });
-
-        prev?.addEventListener("click", () => {
-            track.scrollBy({
-                left: -scrollAmount,
-                behavior: "smooth"
-            });
-        });
-
+    next?.addEventListener("click", () => {
+      track.scrollBy({
+        left: scrollAmount,
+        behavior: "smooth",
+      });
     });
 
+    prev?.addEventListener("click", () => {
+      track.scrollBy({
+        left: -scrollAmount,
+        behavior: "smooth",
+      });
+    });
+  });
 });
 
 /* ==========================
    FAQ SECTION
 ========================== */
 document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".custom-faq").forEach((section) => {
+    const items = section.querySelectorAll(".faq-item");
 
-    document.querySelectorAll(".custom-faq").forEach(section => {
+    items.forEach((item) => {
+      const button = item.querySelector(".faq-question");
+      const answer = item.querySelector(".faq-answer");
 
-        const items = section.querySelectorAll(".faq-item");
+      button.addEventListener("click", () => {
+        const isActive = item.classList.contains("active");
 
-        items.forEach(item => {
-
-            const button = item.querySelector(".faq-question");
-            const answer = item.querySelector(".faq-answer");
-
-            button.addEventListener("click", () => {
-
-                const isActive = item.classList.contains("active");
-
-                items.forEach(i => {
-                    i.classList.remove("active");
-                    i.querySelector(".faq-answer").style.maxHeight = null;
-                });
-
-                if (!isActive) {
-                    item.classList.add("active");
-                    answer.style.maxHeight = answer.scrollHeight + "px";
-                }
-
-            });
-
+        items.forEach((i) => {
+          i.classList.remove("active");
+          i.querySelector(".faq-answer").style.maxHeight = null;
         });
 
+        if (!isActive) {
+          item.classList.add("active");
+          answer.style.maxHeight = answer.scrollHeight + "px";
+        }
+      });
     });
-
+  });
 });
 
 /* ===========================
@@ -229,75 +198,70 @@ document.addEventListener("DOMContentLoaded", () => {
 =========================== */
 
 document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".countdown-timer").forEach((timer) => {
+    const endDate = new Date(timer.dataset.date).getTime();
 
-    document.querySelectorAll(".countdown-timer").forEach(timer => {
+    function updateTimer() {
+      const now = new Date().getTime();
+      const distance = endDate - now;
 
-        const endDate = new Date(timer.dataset.date).getTime();
+      if (distance <= 0) {
+        timer.querySelector(".days").textContent = "00";
+        timer.querySelector(".hours").textContent = "00";
+        timer.querySelector(".minutes").textContent = "00";
+        timer.querySelector(".seconds").textContent = "00";
 
-        function updateTimer() {
+        return;
+      }
 
-            const now = new Date().getTime();
-            const distance = endDate - now;
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+      );
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            if (distance <= 0) {
+      timer.querySelector(".days").textContent = String(days).padStart(2, "0");
+      timer.querySelector(".hours").textContent = String(hours).padStart(
+        2,
+        "0",
+      );
+      timer.querySelector(".minutes").textContent = String(minutes).padStart(
+        2,
+        "0",
+      );
+      timer.querySelector(".seconds").textContent = String(seconds).padStart(
+        2,
+        "0",
+      );
+    }
 
-                timer.querySelector(".days").textContent = "00";
-                timer.querySelector(".hours").textContent = "00";
-                timer.querySelector(".minutes").textContent = "00";
-                timer.querySelector(".seconds").textContent = "00";
-
-                return;
-            }
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            timer.querySelector(".days").textContent = String(days).padStart(2, "0");
-            timer.querySelector(".hours").textContent = String(hours).padStart(2, "0");
-            timer.querySelector(".minutes").textContent = String(minutes).padStart(2, "0");
-            timer.querySelector(".seconds").textContent = String(seconds).padStart(2, "0");
-
-        }
-
-        updateTimer();
-        setInterval(updateTimer, 1000);
-
-    });
-
+    updateTimer();
+    setInterval(updateTimer, 1000);
+  });
 });
-
 
 /*=========================
 BEFORE AFTER
 ==========================*/
 
 document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".ba-wrapper").forEach((wrapper) => {
+    const slider = wrapper.querySelector(".ba-slider");
+    const after = wrapper.querySelector(".after-image");
+    const handle = wrapper.querySelector(".ba-handle");
 
-    document.querySelectorAll(".ba-wrapper").forEach(wrapper => {
+    function update(value) {
+      after.style.width = value + "%";
+      handle.style.left = value + "%";
+    }
 
-        const slider = wrapper.querySelector(".ba-slider");
-        const after = wrapper.querySelector(".after-image");
-        const handle = wrapper.querySelector(".ba-handle");
+    update(50);
 
-        function update(value){
-
-            after.style.width = value + "%";
-            handle.style.left = value + "%";
-
-        }
-
-        update(50);
-
-        slider.addEventListener("input", function(){
-
-            update(this.value);
-
-        });
-
+    slider.addEventListener("input", function () {
+      update(this.value);
     });
-
+  });
 });
 
 /*==========================================
@@ -305,37 +269,33 @@ document.addEventListener("DOMContentLoaded", () => {
 ==========================================*/
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Initialize all testimonial sections
+  document.querySelectorAll(".custom-testimonial").forEach((section) => {
+    // Get slider elements
+    const track = section.querySelector(".testimonial-track");
+    const prev = section.querySelector(".prev");
+    const next = section.querySelector(".next");
 
-    // Initialize all testimonial sections
-    document.querySelectorAll(".custom-testimonial").forEach(section => {
+    if (!track) return;
 
-        // Get slider elements
-        const track = section.querySelector(".testimonial-track");
-        const prev = section.querySelector(".prev");
-        const next = section.querySelector(".next");
+    const scrollAmount = 450;
 
-        if (!track) return;
-
-        const scrollAmount = 450;
-
-        // Next slide
-        next?.addEventListener("click", () => {
-            track.scrollBy({
-                left: scrollAmount,
-                behavior: "smooth"
-            });
-        });
-
-        // Previous slide
-        prev?.addEventListener("click", () => {
-            track.scrollBy({
-                left: -scrollAmount,
-                behavior: "smooth"
-            });
-        });
-
+    // Next slide
+    next?.addEventListener("click", () => {
+      track.scrollBy({
+        left: scrollAmount,
+        behavior: "smooth",
+      });
     });
 
+    // Previous slide
+    prev?.addEventListener("click", () => {
+      track.scrollBy({
+        left: -scrollAmount,
+        behavior: "smooth",
+      });
+    });
+  });
 });
 
 /*==========================================
@@ -343,15 +303,11 @@ document.addEventListener("DOMContentLoaded", () => {
 ==========================================*/
 
 document.addEventListener("DOMContentLoaded", () => {
-
-    // Select all logo sliders
-    document.querySelectorAll(".custom-logo-slider").forEach(slider => {
-
-        // Future interactive functionality
-        // (e.g., play/pause controls or dynamic speed)
-
-    });
-
+  // Select all logo sliders
+  document.querySelectorAll(".custom-logo-slider").forEach((slider) => {
+    // Future interactive functionality
+    // (e.g., play/pause controls or dynamic speed)
+  });
 });
 
 /*==========================================
@@ -359,26 +315,71 @@ document.addEventListener("DOMContentLoaded", () => {
 ==========================================*/
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Get sticky cart
+  const stickyCart = document.querySelector(".sticky-cart");
 
-    // Get sticky cart
-    const stickyCart = document.querySelector(".sticky-cart");
+  if (!stickyCart) return;
 
-    if (!stickyCart) return;
+  // Show sticky cart after scrolling
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 500) {
+      stickyCart.classList.add("show");
+    } else {
+      stickyCart.classList.remove("show");
+    }
+  });
+});
 
-    // Show sticky cart after scrolling
-    window.addEventListener("scroll", () => {
 
-        if (window.scrollY > 500) {
+// AJAX ADD TO CART
+const button = document.querySelector("#my-add-to-cart");
 
-            stickyCart.classList.add("show");
+button.addEventListener("click", () => {
+  const variantId = button.dataset.variantId;
 
-        } else {
-
-            stickyCart.classList.remove("show");
-
-        }
-
+  fetch("/cart/add.js", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id: variantId,
+      quantity: 1,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Product Added");
+      console.log(data);
+      updateCartCount();
     });
+
 
 });
 
+// AJAX GET CART
+const showCartButton = document.querySelector("#show-cart");
+
+showCartButton.addEventListener("click", () => {
+
+    fetch("/cart.js")
+        .then(response => response.json())
+        .then(cart => {
+            console.log(cart);
+        });
+
+});
+
+// AJAX UPDATE CART COUNT
+function updateCartCount() {
+
+    fetch("/cart.js")
+        .then(response => response.json())
+        .then(cart => {
+
+            document.querySelector("#cart-count").textContent = cart.item_count;
+
+        });
+
+}
+updateCartCount();

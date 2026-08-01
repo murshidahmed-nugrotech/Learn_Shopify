@@ -1,5 +1,4 @@
 <section class="custom-product-tabs page-width">
-
   <div class="section-heading">
     {% if section.settings.heading != blank %}
       <h2>{{ section.settings.heading }}</h2>
@@ -23,41 +22,51 @@
   </div>
 
   {% for block in section.blocks %}
-    {% assign collection = collections[block.settings.collection] %}
+    {% assign collection = block.settings.collection %}
 
     <div
       class="tab-content {% if forloop.first %}active{% endif %}"
       id="tab-{{ block.id }}"
     >
-
       <div class="products-grid">
+        {% if collection != blank and collection.products_count > 0 %}
 
-        {% if collection %}
+  {% for product in collection.products limit: section.settings.products_to_show %}
+    {% render 'custom-product-card', product: product %}
+  {% endfor %}
 
-          {% for product in collection.products limit: section.settings.products_to_show %}
-            {% render 'custom-product-card', product: product %}
-          {% endfor %}
+{% else %}
 
-        {% else %}
+  {% assign demo_titles = "Classic T-Shirt,Premium Hoodie,Sport Shoes,Leather Bag" | split: "," %}
+  {% assign demo_prices = "₹999,₹1,999,₹2,499,₹3,499" | split: "," %}
 
-          <p>No collection selected.</p>
+  {% for i in (1..4) %}
 
-        {% endif %}
+    {% assign demo_image = 'before' %}
 
-      </div>
+    {% if forloop.index == 2 or forloop.index == 4 %}
+      {% assign demo_image = 'after' %}
+    {% endif %}
 
-      {% if collection and section.settings.show_view_all %}
-        <div class="view-all-wrapper">
-          <a href="{{ collection.url }}" class="button">
-            View All
-          </a>
-        </div>
-      {% endif %}
-
-    </div>
+    {% render 'custom-product-card',
+      demo: true,
+      title: demo_titles[forloop.index0],
+      price: demo_prices[forloop.index0],
+      image: demo_image
+    %}
 
   {% endfor %}
 
+{% endif %}
+      </div>
+
+      {% if collection != blank and collection.products_count > 0 and section.settings.show_view_all %}
+        <div class="view-all-wrapper">
+          <a href="{{ collection.url }}" class="button"> View All </a>
+        </div>
+      {% endif %}
+    </div>
+  {% endfor %}
 </section>
 
 {% schema %}
@@ -113,7 +122,21 @@
   ],
   "presets": [
     {
-      "name": "Custom Product Tabs"
+      "name": "Custom Product Tabs",
+      "blocks": [
+        {
+          "type": "tab"
+        },
+        {
+          "type": "tab"
+        },
+        {
+          "type": "tab"
+        },
+        {
+          "type": "tab"
+        }
+      ]
     }
   ]
 }
