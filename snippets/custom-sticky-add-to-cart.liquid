@@ -1,16 +1,17 @@
+<<<<<<< HEAD
 <div class="sticky-cart">
 
     <div class="sticky-cart-left">
 
-        {% if product.featured_image %}
-            {{
+         {% if product.featured_image %}
+             {{
                 product.featured_image
-                | image_url: width: 120
-                | image_tag:
-                class: 'sticky-cart-image',
-                loading: 'lazy'
-            }}
-        {% endif %}
+                 | image_url: width: 120
+                 | image_tag:
+                 class: 'sticky-cart-image',
+                 loading: 'lazy'
+             }}
+         {% endif %}
 
         <div class="sticky-cart-info">
 
@@ -35,4 +36,43 @@
 
     </div>
 
+=======
+<div class="sticky-cart">
+
+    <div class="sticky-cart-left">
+
+         {% if product.featured_image %}
+             {{
+                product.featured_image
+                 | image_url: width: 120
+                 | image_tag:
+                 class: 'sticky-cart-image',
+                 loading: 'lazy'
+             }}
+         {% endif %}
+
+        <div class="sticky-cart-info">
+
+            <h4>{{ product.title }}</h4>
+
+            <div class="sticky-cart-price">
+                {{ product.selected_or_first_available_variant.price | money }}
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="sticky-cart-right">
+
+        <a
+            href="#ProductInfo-template--{{ section.id }}"
+            class="sticky-cart-btn"
+        >
+            Add to Cart
+        </a>
+
+    </div>
+
+>>>>>>> 94141d712f3508a38e9adf959e5e53953c889580
 </div>
